@@ -68,6 +68,7 @@ sub_tab_header = delimiter.join(sub_tab_header)
 
 output_file = uuid.uuid4().hex
 
+print("flattening ...")
 with open("{}/{}".format(data_cache_path, input_file), "r") as in_file:
     with open("{}/{}".format(data_cache_path, output_file), "w") as out_file:
         line = in_file.readline().strip().split(delimiter)
