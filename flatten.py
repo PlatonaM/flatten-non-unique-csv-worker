@@ -25,7 +25,7 @@ unique_col = os.getenv("unique_column")
 time_col = os.getenv("time_column")
 name_pattern = os.getenv("name_pattern")
 sub_tab_delimiters = os.getenv("sub_table_delimiters").split(",")
-data_cache_path = "data_cache"
+data_cache_path = "/data_cache"
 
 
 def remove_trailing_delimiter(unique_items, merge_line, new_first_line_map):
