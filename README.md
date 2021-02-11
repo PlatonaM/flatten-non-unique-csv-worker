@@ -92,7 +92,7 @@ Examples:
 
 result:
 
-    time,module,station,process,errorcode
+    time,module_2_processdata,module_1_processdata
     2021-02-01T05:03:43.353Z,24;1;0?3;1;0,
 
 `sub_table_delimiters` = `#,$`
@@ -103,5 +103,5 @@ result:
 
 result:
 
-    time,module,station,process,errorcode
+    time,module_2_processdata,module_1_processdata
     2021-02-01T05:03:43.353Z,24#1#0$3#1#0,
