@@ -75,7 +75,7 @@ with open("{}/{}".format(data_cache_path, input_file), "r") as in_file:
         line_len = len(line)
         out_file.write(delimiter.join(new_first_line) + "\n")
         current_timestamp = None
-        line_count = 0
+        line_count = 1
         for line in in_file:
             line = line.strip().split(delimiter)
             if line[time_col_num] != current_timestamp:
