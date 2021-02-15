@@ -42,11 +42,12 @@ with open("{}/{}".format(data_cache_path, input_file), "r") as file:
     old_first_line = file.readline().strip().split(delimiter)
     time_col_num = old_first_line.index(time_col)
     unique_col_num = old_first_line.index(unique_col)
-    unique_items = list()
+    unique_items = set()
     for line in file:
         line = line.split(delimiter)
         if line[unique_col_num] not in unique_items:
-            unique_items.append(line[unique_col_num])
+            unique_items.add(line[unique_col_num])
+    unique_items = list(unique_items)
 
 new_first_line = [time_col]
 new_first_line_map = {time_col: 0}
@@ -58,7 +59,7 @@ for x in range(len(unique_items)):
     new_first_line.append(col_name)
     new_first_line_map[col_name] = x + 1
 
-reserved_pos = (time_col_num, unique_col_num)
+reserved_pos = {time_col_num, unique_col_num}
 
 sub_tab_header = list()
 for x in range(len(old_first_line)):
