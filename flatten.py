@@ -31,8 +31,8 @@ sub_tab_delimiters = os.getenv("sub_table_delimiters").split(",")
 data_cache_path = "/data_cache"
 
 
-def remove_trailing_delimiter(unique_items, merge_line, new_first_line_map):
-    for x in range(len(unique_items)):
+def remove_trailing_delimiter(unique_items, ui_range, merge_line, new_first_line_map):
+    for x in ui_range:
         if "unique_column" in name_pattern:
             col_name = name_pattern.format(unique_column=unique_col, unique_item=unique_items[x])
         else:
@@ -51,16 +51,18 @@ with open("{}/{}".format(data_cache_path, input_file), "r") as file:
         if line[unique_col_num] not in unique_items:
             unique_items.add(line[unique_col_num])
     unique_items = list(unique_items)
+unique_items_range = range(len(unique_items))
 
 new_first_line = [time_col]
 new_first_line_map = {time_col: 0}
-for x in range(len(unique_items)):
+for x in unique_items_range:
     if "unique_column" in name_pattern:
         col_name = name_pattern.format(unique_column=unique_col, unique_item=unique_items[x])
     else:
         col_name = name_pattern.format(unique_item=unique_items[x])
     new_first_line.append(col_name)
     new_first_line_map[col_name] = x + 1
+new_first_line_len = len(new_first_line)
 
 reserved_pos = {time_col_num, unique_col_num}
 
@@ -77,6 +79,7 @@ with open("{}/{}".format(data_cache_path, input_file), "r") as in_file:
     with open("{}/{}".format(data_cache_path, output_file), "w") as out_file:
         line = in_file.readline().strip().split(delimiter)
         line_len = len(line)
+        line_range = range(line_len)
         out_file.write(delimiter.join(new_first_line) + "\n")
         current_timestamp = None
         line_count = 1
@@ -84,16 +87,16 @@ with open("{}/{}".format(data_cache_path, input_file), "r") as in_file:
             line = line.strip().split(delimiter)
             if line[time_col_num] != current_timestamp:
                 try:
-                    remove_trailing_delimiter(unique_items, merge_line, new_first_line_map)
+                    remove_trailing_delimiter(unique_items, unique_items_range, merge_line, new_first_line_map)
                     out_file.write("{}\n".format(delimiter.join(merge_line)))
                     line_count += 1
                 except NameError:
                     pass
-                merge_line = [str()] * len(new_first_line)
+                merge_line = [str()] * new_first_line_len
                 merge_line[0] = line[time_col_num]
                 current_timestamp = line[time_col_num]
             sub_table = str()
-            for pos in range(line_len):
+            for pos in line_range:
                 if pos not in reserved_pos:
                     if pos < line_len - 1:
                         sub_table += line[pos] + sub_tab_delimiters[0]
@@ -103,7 +106,7 @@ with open("{}/{}".format(data_cache_path, input_file), "r") as in_file:
                 merge_line[new_first_line_map[name_pattern.format(unique_column=unique_col, unique_item=line[unique_col_num])]] += sub_table + sub_tab_delimiters[1]
             else:
                 merge_line[new_first_line_map[name_pattern.format(unique_item=line[unique_col_num])]] += sub_table + sub_tab_delimiters[1]
-        remove_trailing_delimiter(unique_items, merge_line, new_first_line_map)
+        remove_trailing_delimiter(unique_items, unique_items_range, merge_line, new_first_line_map)
         out_file.write(delimiter.join(merge_line) + "\n")
         line_count += 1
 
