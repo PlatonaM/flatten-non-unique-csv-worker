@@ -50,7 +50,7 @@ with open("{}/{}".format(data_cache_path, input_file), "r") as file:
         line = line.split(delimiter)
         if line[unique_col_num] not in unique_items:
             unique_items.add(line[unique_col_num])
-    unique_items = list(unique_items)
+    unique_items = sorted(unique_items)
 unique_items_range = range(len(unique_items))
 
 new_first_line = [time_col]
