@@ -75,7 +75,7 @@ for x in range(len(old_first_line)):
 
 sub_table_map = list()
 for col in new_columns:
-    sub_table_map.append(sub_table_map + col + ":" + ";".join(sub_tab_header))
+    sub_table_map.append(col + ":" + ";".join(sub_tab_header))
 
 output_file = uuid.uuid4().hex
 
