@@ -72,7 +72,6 @@ sub_tab_header = list()
 for x in range(len(old_first_line)):
     if x not in reserved_pos:
         sub_tab_header.append(old_first_line[x])
-sub_tab_header = delimiter.join(sub_tab_header)
 
 sub_table_map = list()
 for col in new_columns:
