@@ -55,12 +55,14 @@ unique_items_range = range(len(unique_items))
 
 new_first_line = [time_col]
 new_first_line_map = {time_col: 0}
+new_columns = list()
 for x in unique_items_range:
     if "unique_column" in name_pattern:
         col_name = name_pattern.format(unique_column=unique_col, unique_item=unique_items[x])
     else:
         col_name = name_pattern.format(unique_item=unique_items[x])
     new_first_line.append(col_name)
+    new_columns.append(col_name)
     new_first_line_map[col_name] = x + 1
 new_first_line_len = len(new_first_line)
 
@@ -71,6 +73,10 @@ for x in range(len(old_first_line)):
     if x not in reserved_pos:
         sub_tab_header.append(old_first_line[x])
 sub_tab_header = delimiter.join(sub_tab_header)
+
+sub_table_map = list()
+for col in new_columns:
+    sub_table_map.append(sub_table_map + col + ":" + ";".join(sub_tab_header))
 
 output_file = uuid.uuid4().hex
 
@@ -118,7 +124,7 @@ print("total number of lines written: {}".format(line_count))
 try:
     resp = requests.post(
         job_callback_url,
-        json={dep_instance: {"sub_table_header": sub_tab_header, "output_file": output_file}}
+        json={dep_instance: {"sub_table_map": ",".join(sub_table_map), "output_file": output_file}}
     )
     if not resp.ok:
         raise RuntimeError(resp.status_code)

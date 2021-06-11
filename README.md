@@ -112,7 +112,7 @@ Type: single
             "type": "single",
             "fields": [
                 {
-                    "name": "sub_table_header",
+                    "name": "sub_table_map",
                     "media_type": "text/plain",
                     "is_file": false
                 },
