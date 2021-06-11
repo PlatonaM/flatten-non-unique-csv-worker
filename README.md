@@ -82,7 +82,7 @@ Type: single
 
 `output_file`: Result CSV file with sub tables.
 
-`sub_table_header`: Generated header for sub tables.
+`sub_table_map`: Generated columns and corresponding headers for sub tables.
 
 ### Description
 
